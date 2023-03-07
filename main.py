@@ -8,9 +8,11 @@ load_dotenv()
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+
 
 openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
+
 
 @app.route('/', methods=['GET'])
 def home():
@@ -29,7 +31,8 @@ def openai_api():
         stop=None,
         temperature=0.5,
     )
-    return jsonify({'response': response.choices[0].text.strip()})
+    response_json = jsonify({'response': response.choices[0].text.strip()})
+    return response_json
 
 
 
