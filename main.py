@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from flask_cors import CORS,cross_origin
+from flask_cors import CORS
 from dotenv import load_dotenv
 import openai
 
@@ -8,8 +8,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
-app.config['CORS_HEADERS'] = 'Content-Type'
-# CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
@@ -19,7 +18,6 @@ openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
 def home():
    return jsonify({'message': 'Hello World'})
 
-@cross_origin()
 @app.route('/api/openai', methods=['POST'])
 def openai_api():
     data = request.get_json()
@@ -35,6 +33,7 @@ def openai_api():
     )
     response_json = jsonify({'response': response.choices[0].text.strip()})
     return response_json
+
 
 
 
