@@ -1,6 +1,6 @@
 import os
-from flask import Flask, request, jsonify,make_response
-from flask_cors import CORS,cross_origin
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 import openai
 
@@ -19,7 +19,6 @@ def home():
    return jsonify({'message': 'Hello World'})
 
 @app.route('/api/openai', methods=['POST'])
-@cross_origin()
 def openai_api():
     data = request.get_json()
     prompt = data['prompt']
@@ -32,17 +31,8 @@ def openai_api():
         stop=None,
         temperature=0.5,
     )
-    response_text = response.choices[0].text.strip()
-    response_data = {'response': response_text}
-    response_json = jsonify(response_data)
-    response = make_response(response_json)
-    response.headers['Access-Control-Allow-Origin'] = 'https://kenny-bot.vercel.app'
-
-
-
-
-
-
+    response_json = jsonify({'response': response.choices[0].text.strip()})
+    return response_json
 
 
 if __name__ == '__main__':
