@@ -8,7 +8,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "https://kenny-bot.vercel.app/"}})
+cors = CORS(app, resources={r"/api/*": {"origins": ["https://kenny-bot.vercel.app", "https://kennybot.up.railway.app"]}})
 
 
 openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
