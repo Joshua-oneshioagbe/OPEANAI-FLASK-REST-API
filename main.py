@@ -8,7 +8,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app)
 
 
 openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
@@ -32,8 +32,11 @@ def openai_api():
         stop=None,
         temperature=0.5,
     )
-    response_json = jsonify({'response': response.choices[0].text.strip()})
-    return response_json
+    response_text = response.choices[0].text.strip()
+    response_data = {'response': response_text}
+    response_json = jsonify(response_data)
+    response = make_response(response_json)
+    response.headers['Access-Control-Allow-Origin'] = 'https://kenny-bot.vercel.app'
 
 
 
