@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 from dotenv import load_dotenv
 import openai
 
@@ -19,6 +19,7 @@ def home():
    return jsonify({'message': 'Hello World'})
 
 @app.route('/api/openai', methods=['POST'])
+@cross_origin()
 def openai_api():
     data = request.get_json()
     prompt = data['prompt']
