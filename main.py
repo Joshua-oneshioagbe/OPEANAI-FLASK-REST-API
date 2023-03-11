@@ -19,13 +19,15 @@ openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
 def home():
    return jsonify({'message': 'Hello World'})
 
-@app.route('/api/openai', methods=['POST'])
+@app.route('/api/openai', methods=["GET",'POST'])
 def openai_api():
-      if request.method == 'POST':
+    if request.method == 'POST':
         data = request.get_json()
         prompt = data["prompt"]
         response=getResponseFromOpenai(prompt)
         return response
+    else:
+        return jsonify({'message': 'my request is not a post'})
 
 
 if __name__ == '__main__':
