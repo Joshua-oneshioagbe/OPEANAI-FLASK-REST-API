@@ -20,19 +20,11 @@ def home():
 
 @app.route('/api/openai', methods=['POST'])
 def openai_api():
-    data = request.get_json()
-    prompt = data['prompt']
-   
-    response = openai.Completion.create(
-        engine='text-davinci-003',
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    response_json = jsonify({'response': response.choices[0].text.strip()})
-    return response_json
+      if request.method == 'POST':
+        data = request.get_json()
+        prompt = data["prompt"]
+        response=getResponseFromOpenai(prompt)
+        return response
 
 
 if __name__ == '__main__':
