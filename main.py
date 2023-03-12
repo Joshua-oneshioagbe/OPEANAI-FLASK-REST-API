@@ -9,7 +9,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+cors = CORS(app, resources={r"/api/*": {"origins": ["https://kenny-bot.vercel.app", "https://kennybot.up.railway.app"]}})
 
 
 
