@@ -9,10 +9,10 @@ load_dotenv()
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": ["https://kenny-bot.vercel.app", "https://kennybot.up.railway.app"]}})
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
-openai.api_key =  os.environ.get('OPEN_AI_API_KEY')
+
 
 
 @app.route('/', methods=['GET'])
@@ -22,12 +22,20 @@ def home():
 @app.route('/api/openai', methods=["GET",'POST'])
 def openai_api():
     if request.method == 'POST':
-        data = request.get_json()
-        prompt = data["prompt"]
-        response=getResponseFromOpenai(prompt)
-        return response
+        json_data = request.get_json()
+        if json_data is not None and 'prompt' in json_data:
+            prompt = json_data['prompt']
+            response = getResponseFromOpenai(prompt)
+            return response
+        else:
+            return jsonify({'message': 'Invalid request data'})
     else:
         return jsonify({'message': 'my request is not a post'})
+       
+   
+
+
+
 
 
 if __name__ == '__main__':
